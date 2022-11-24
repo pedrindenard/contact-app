@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -177,7 +176,7 @@ class ContactActivity : AppCompatActivity() {
     }
 
     private fun startPhoneCall(position: Int) {
-        val numberCountry = mainAdapter.items[position].country.replace("+", "")
+        val numberCountry = mainAdapter.items[position].country.replace(" ", "")
         val numberPhone = mainAdapter.items[position].number.replace(" ", "")
         val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$numberCountry$numberPhone"))
         startActivity(intent)
