@@ -4,12 +4,14 @@
     <color name="green_500">#8BC34A</color>
     <color name="green_200">#B2FF59</color>
 
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="red">#FF3D00</color>
-    <color name="yellow">#FF9100</color>
+    <color name="red">#FF5252</color>
+
+    <color name="menu_text_color">#FFFFFFFF</color>
+    <color name="menu_background_color">#717171</color>
+    <color name="card_background_color">#333333</color>
+
+    <color name="action_bar_color">#717171</color>
 </resources>

@@ -93,4 +93,7 @@ dependencies {
     //Recycler View
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.cardview:cardview:1.0.0'
+
+    //PhoneNumber
+    implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.21'
 }

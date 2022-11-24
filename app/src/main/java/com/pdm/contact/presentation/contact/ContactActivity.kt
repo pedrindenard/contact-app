@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -16,13 +17,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.pdm.contact.R
 import com.pdm.contact.databinding.ActivityContactBinding
 import com.pdm.contact.feature.domain.LocalEvent
-import com.pdm.contact.presentation.adapter.ContactAdapter
 import com.pdm.contact.presentation.form.FormActivity
 import com.pdm.contact.utils.RequestPermission
 import com.pdm.contact.utils.Utils
+import com.pdm.contact.utils.Utils.addOnScrollHiddenView
 import com.pdm.contact.utils.Utils.contact
 import com.pdm.contact.utils.Utils.getParcelable
 import com.pdm.contact.utils.Utils.setParcelable
+import com.pdm.contact.utils.Utils.startOpenAnimation
 import com.pdm.contact.utils.Utils.startToastMessage
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -44,6 +46,7 @@ class ContactActivity : AppCompatActivity() {
                 if (data != null) {
                     mainAdapter.insertItem(data)
                     viewModel.insertItemOnBackupContact(data)
+                    binding.contactEmpty.isVisible = mainAdapter.items.isEmpty()
                 }
             }
             Utils.RESULT_CONTACT_EDIT -> {
@@ -51,6 +54,7 @@ class ContactActivity : AppCompatActivity() {
                 if (data != null) {
                     mainAdapter.updateItem(data)
                     viewModel.updateItemOnBackupContact(data)
+                    binding.contactEmpty.isVisible = mainAdapter.items.isEmpty()
                 }
             }
         }
@@ -84,12 +88,9 @@ class ContactActivity : AppCompatActivity() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.uiEventState.collectLatest { result ->
                     when (result) {
+                        is LocalEvent.RemoveItem -> { /* TODO: Not used in screen`s */ }
                         is LocalEvent.Empty -> binding.contactEmpty.visibility = View.VISIBLE
                         is LocalEvent.Failure -> binding.contactEmpty.visibility = View.VISIBLE
-                        is LocalEvent.RemoveItem -> {
-                            mainAdapter.removeItem(result.position)
-                            binding.contactEmpty.isVisible = mainAdapter.items.isEmpty()
-                        }
                         is LocalEvent.Success -> {
                             mainAdapter.insertItems(result.data)
                             binding.contactEmpty.isVisible = mainAdapter.items.isEmpty()
@@ -98,11 +99,22 @@ class ContactActivity : AppCompatActivity() {
                 }
             }
         }
+
+        lifecycleScope.launchWhenStarted {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.uiRemoveEventState.collectLatest { position ->
+                    mainAdapter.removeItem(position)
+                    binding.contactEmpty.isVisible = mainAdapter.items.isEmpty()
+                    binding.contactCardSearch.startOpenAnimation()
+                }
+            }
+        }
     }
 
     private fun setListeners() {
         binding.contactRecyclerView.adapter = mainAdapter
         binding.contactRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.contactRecyclerView.addOnScrollHiddenView(binding.contactCardSearch)
 
         mainAdapter.setOnClickListener(object : ContactAdapter.ItemClickListener {
             override fun onEditClick(position: Int) {
@@ -165,8 +177,9 @@ class ContactActivity : AppCompatActivity() {
     }
 
     private fun startPhoneCall(position: Int) {
-        val numberPhone = mainAdapter.items[position].number
-        val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$numberPhone"))
+        val numberCountry = mainAdapter.items[position].country.replace("+", "")
+        val numberPhone = mainAdapter.items[position].number.replace(" ", "")
+        val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$numberCountry$numberPhone"))
         startActivity(intent)
     }
 
@@ -174,7 +187,9 @@ class ContactActivity : AppCompatActivity() {
         val contact = mainAdapter.items[position]
         val intent = Intent(Intent.ACTION_SEND)
 
-        intent.putExtra(Intent.EXTRA_TEXT, "${contact.name}\n${contact.number}\n${contact.number}")
+        val extra = "${contact.name}\n${contact.country} ${contact.number}\n${contact.email}"
+
+        intent.putExtra(Intent.EXTRA_TEXT, extra)
         intent.type = "text/plain"
 
         startActivity(intent)

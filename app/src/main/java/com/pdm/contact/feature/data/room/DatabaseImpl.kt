@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.pdm.contact.feature.domain.model.ContactEntity
 
 @Database(
-    version = 1,
+    version = 2,
     exportSchema = true,
     entities = [ContactEntity::class]
 )
@@ -29,6 +29,8 @@ abstract class DatabaseImpl : RoomDatabase(), com.pdm.contact.feature.data.room.
                         context.applicationContext,
                         DatabaseImpl::class.java,
                         database
+                    ).addMigrations(
+                        Migration.MIGRATION_1_2
                     ).build()
 
                     instance = room

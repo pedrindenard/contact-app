@@ -10,6 +10,7 @@ data class ContactEntity(
     @ColumnInfo(name = "id") val id: Int,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "email") val email: String,
+    @ColumnInfo(name = "country") val country: String,
     @ColumnInfo(name = "number") val number: String
 ) {
     val contact: Contact
@@ -17,6 +18,7 @@ data class ContactEntity(
             id = id,
             name = name,
             email = email,
+            country = country,
             number = number,
         )
 }

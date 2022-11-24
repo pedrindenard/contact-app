@@ -44,6 +44,8 @@ class FormViewModel(private val repository: ContactRepository) : ViewModel() {
         if (
             contact.number.isEmpty() ||
             contact.number.isBlank() ||
+            contact.country.isEmpty() ||
+            contact.country.isBlank() ||
             PhoneNumberUtils.isGlobalPhoneNumber(contact.number)
         ) {
             _uiEventState.emit(FormEvent.InputFieldNumberIsInvalid)

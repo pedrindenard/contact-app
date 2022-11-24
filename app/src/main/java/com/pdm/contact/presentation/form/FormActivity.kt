@@ -2,7 +2,9 @@ package com.pdm.contact.presentation.form
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.ListPopupWindow
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,18 +18,24 @@ import com.pdm.contact.utils.Utils
 import com.pdm.contact.utils.Utils.RESULT_CONTACT_ADD
 import com.pdm.contact.utils.Utils.RESULT_CONTACT_EDIT
 import com.pdm.contact.utils.Utils.contact
+import com.pdm.contact.utils.Utils.setBackgroundColor
+import com.pdm.contact.utils.Utils.toEditable
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FormActivity : AppCompatActivity() {
 
+    private val popupWindow by lazy { ListPopupWindow(this, null, android.R.attr.dropDownListViewStyle) }
     private val binding by lazy { ActivityFormBinding.inflate(layoutInflater) }
+
     private val viewModel by viewModel<FormViewModel>()
+    private val items by lazy { Utils.getCountryCodes() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setDataFromIntent()
+        setCountryDrawer()
         setObservers()
         setListener()
     }
@@ -61,6 +69,8 @@ class FormActivity : AppCompatActivity() {
     }
 
     private fun setListener() {
+        binding.contactFormNumberEditText.addTextChangedListener(MaskWatcher.buildGlobalNumberPhone())
+
         binding.contactFormEmailEditText.doAfterTextChanged {
             binding.contactFormEmailEditText.error = null
         }
@@ -73,7 +83,25 @@ class FormActivity : AppCompatActivity() {
             binding.contactFormNumberEditText.error = null
         }
 
-        binding.contactFormNumberEditText.addTextChangedListener(MaskWatcher.buildGlobalNumberPhone())
+        binding.contactFormCountryEditText.setOnClickListener {
+            if (popupWindow.isShowing) popupWindow.dismiss() else popupWindow.show()
+        }
+
+        binding.root.setOnClickListener {
+            if (popupWindow.isShowing) popupWindow.dismiss()
+        }
+
+        binding.contactFormFullNameEditText.setOnClickListener {
+            if (popupWindow.isShowing) popupWindow.dismiss()
+        }
+
+        binding.contactFormEmailEditText.setOnClickListener {
+            if (popupWindow.isShowing) popupWindow.dismiss()
+        }
+
+        binding.contactFormNumberEditText.setOnClickListener {
+            if (popupWindow.isShowing) popupWindow.dismiss()
+        }
 
         binding.contactFormAdd.setOnClickListener {
             Utils.hideKeyboard(this)
@@ -86,10 +114,23 @@ class FormActivity : AppCompatActivity() {
         }
     }
 
+    private fun setCountryDrawer() {
+        popupWindow.setAdapter(ArrayAdapter(this, R.layout.item_menu, items))
+        popupWindow.setBackgroundColor(R.drawable.ic_background_menu, this)
+
+        popupWindow.anchorView = binding.contactPopupCountry
+
+        popupWindow.setOnItemClickListener { _, _, position, _ ->
+            binding.contactFormCountryEditText.text = items[position].toEditable()
+            popupWindow.dismiss()
+        }
+    }
+
     private fun doContact() {
         val name = binding.contactFormFullNameEditText.text.toString()
         val email = binding.contactFormEmailEditText.text.toString()
         val number = binding.contactFormNumberEditText.text.toString()
+        val country = binding.contactFormCountryEditText.text.toString()
         val id = intent.contact?.id ?: 0
 
         viewModel.doContact(
@@ -97,6 +138,7 @@ class FormActivity : AppCompatActivity() {
                 name = name,
                 email = email,
                 number = number,
+                country = country,
                 id = id
             )
         )
@@ -108,8 +150,10 @@ class FormActivity : AppCompatActivity() {
         binding.contactFormNumberEditText.setText(intent.contact?.number)
 
         if (intent.contact != null) {
+            binding.contactFormCountryEditText.setText(intent.contact?.country)
             binding.contactFormAdd.text = getString(R.string.edit_contact)
         } else {
+            binding.contactFormCountryEditText.setText(Utils.getCountryCode())
             binding.contactFormAdd.text = getString(R.string.add_contact)
         }
     }

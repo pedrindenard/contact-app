@@ -1,13 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App -->
     <string name="app_name">Contatos</string>
 
     <!-- Message -->
     <string name="contact_empty">Nenhum contato encontrado :(</string>
-    <string name="error_email">Email inválido</string>
+    <string name="error_email">Email inválido. Ex.: contact@gmail.com</string>
     <string name="error_name">Nome menor que 3 caracteres</string>
-    <string name="error_number">Número inválido</string>
+    <string name="error_number">Número inválido. Ex.: +55 55 555555555</string>
     <string name="error_permission">Sem as permissoes não é possível fazer chamadas</string>
 
     <!-- Content description -->
@@ -23,6 +22,7 @@
     <string name="full_name">Nome completo</string>
     <string name="email">Email</string>
     <string name="number_phone">Número de telefone</string>
+    <string name="country">XX</string>
 
     <!-- Alert Dialog -->
     <string name="alert_dialog_message">Você deseja deletar esse contato?</string>
