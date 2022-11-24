@@ -12,4 +12,7 @@
 /captures
 .externalNativeBuild
 .cxx
+/KeyStore
+/app/release
+/app/debug
 local.properties
