@@ -13,6 +13,7 @@
         android:background="@drawable/ic_background_ripple"
         android:contentDescription="@string/contact_close"
         android:minWidth="48dp"
+        android:tint="@color/red"
         android:minHeight="48dp"
         android:src="@android:drawable/ic_menu_close_clear_cancel"
         app:layout_constraintBottom_toBottomOf="@+id/contact_form_title"
@@ -56,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/full_name"
                 android:inputType="textCapWords"
-                tools:text="Alonso Fonseca" />
+                tools:text="Pedro Denardi Minuzzi" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
-                tools:text="email.com" />
+                tools:text="pedrominuzzi21@gmail.com" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/number_phone"
                 android:inputType="phone"
-                tools:text="+55 (014) 98454-1410" />
+                tools:text="+55 55 98454-1410" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

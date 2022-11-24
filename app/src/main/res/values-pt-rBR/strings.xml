@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">Contatos</string>
+
+    <!-- Message -->
+    <string name="contact_empty">Nenhum contato encontrado :(</string>
+    <string name="error_email">Email inválido</string>
+    <string name="error_name">Nome menor que 3 caracteres</string>
+    <string name="error_number">Número inválido</string>
+    <string name="error_permission">Sem as permissoes não é possível fazer chamadas</string>
+
+    <!-- Content description -->
+    <string name="float_action_button">Float action</string>
+    <string name="contact_close">Contact close</string>
+
+    <!-- Titles -->
+    <string name="contact">Contato</string>
+    <string name="add_contact">Adicionar contato</string>
+    <string name="edit_contact">Editar contato</string>
+
+    <!-- Text hints -->
+    <string name="full_name">Nome completo</string>
+    <string name="email">Email</string>
+    <string name="number_phone">Número de telefone</string>
+
+    <!-- Alert Dialog -->
+    <string name="alert_dialog_message">Você deseja deletar esse contato?</string>
+    <string name="alert_dialog_yes">Sim</string>
+    <string name="alert_dialog_no">Não</string>
+    <string name="search_contact">Pesquisar contato…</string>
+</resources>

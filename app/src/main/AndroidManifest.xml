@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.uri.contact">
+    package="com.pdm.contact">
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,7 +18,7 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".ui.ContactActivity"
+            android:name="com.pdm.contact.presentation.contact.ContactActivity"
             android:exported="true"
             android:screenOrientation="fullSensor">
 
@@ -30,7 +33,7 @@
         </activity>
 
         <activity
-            android:name=".ui.FormActivity"
+            android:name="com.pdm.contact.presentation.form.FormActivity"
             android:exported="false"
             android:screenOrientation="fullSensor" />
 
