@@ -50,7 +50,7 @@ class MaskWatcher(private val mask: String) : TextWatcher {
 
         @Suppress(names = ["unused"])
         fun buildGlobalNumberPhone(): MaskWatcher {
-            return MaskWatcher("## #########")
+            return MaskWatcher("###########")
         }
     }
 }
