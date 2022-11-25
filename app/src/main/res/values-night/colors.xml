@@ -14,4 +14,6 @@
     <color name="card_background_color">#333333</color>
 
     <color name="action_bar_color">#717171</color>
+
+    <color name="action_button_background">#66CCFF90</color>
 </resources>

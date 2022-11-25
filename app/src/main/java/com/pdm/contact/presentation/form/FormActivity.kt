@@ -83,10 +83,6 @@ class FormActivity : AppCompatActivity() {
             binding.contactFormNumberEditText.error = null
         }
 
-        binding.contactFormCountryEditText.setOnClickListener {
-            if (popupWindow.isShowing) popupWindow.dismiss() else popupWindow.show()
-        }
-
         binding.root.setOnClickListener {
             if (popupWindow.isShowing) popupWindow.dismiss()
         }
@@ -101,6 +97,11 @@ class FormActivity : AppCompatActivity() {
 
         binding.contactFormNumberEditText.setOnClickListener {
             if (popupWindow.isShowing) popupWindow.dismiss()
+        }
+
+        binding.contactFormCountryEditText.setOnClickListener {
+            if (popupWindow.isShowing) popupWindow.dismiss() else popupWindow.show()
+            Utils.hideKeyboard(this)
         }
 
         binding.contactFormAdd.setOnClickListener {

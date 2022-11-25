@@ -176,16 +176,18 @@ class ContactActivity : AppCompatActivity() {
     }
 
     private fun startPhoneCall(position: Int) {
-        val numberCountry = mainAdapter.items[position].country.replace(" ", "")
-        val numberPhone = mainAdapter.items[position].number.replace(" ", "")
-        val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$numberCountry$numberPhone"))
+        val contact = mainAdapter.items[position]
+
+        val country = contact.country.replace(" ", "")
+        val phone = contact.number.replace(" ", "")
+
+        val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$country$phone"))
         startActivity(intent)
     }
 
     private fun startShareContact(position: Int) {
         val contact = mainAdapter.items[position]
         val intent = Intent(Intent.ACTION_SEND)
-
         val extra = "${contact.name}\n${contact.country} ${contact.number}\n${contact.email}"
 
         intent.putExtra(Intent.EXTRA_TEXT, extra)

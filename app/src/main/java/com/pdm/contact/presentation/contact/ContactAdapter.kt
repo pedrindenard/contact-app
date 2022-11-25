@@ -2,9 +2,7 @@ package com.pdm.contact.presentation.contact
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
-import com.pdm.contact.R
 import com.pdm.contact.databinding.ItemContactBinding
 import com.pdm.contact.feature.domain.model.Contact
 
@@ -38,10 +36,6 @@ class ContactAdapter : RecyclerView.Adapter<ContactAdapter.ViewHolder>() {
             binding.contactNumber.text = buildString {
                 append(contact.country + " " + contact.number)
             }
-
-            binding.root.startAnimation(
-                AnimationUtils.loadAnimation(binding.root.context, R.anim.anim_enter_scale)
-            )
 
             binding.contactEdit.setOnClickListener {
                 itemClickListener.onEditClick(absoluteAdapterPosition)
